@@ -24,6 +24,7 @@ class ReportController extends Controller
             'student_name' => ['required', 'string', 'max:255'],
             'school_id' => ['required', 'exists:schools,id'],
             'sppg_id' => ['required', 'exists:sppgs,id'],
+            'incident_type' => ['required', 'in:Keracunan,Makanan tidak layak,Makanan tidak datang'],
             'incident_date' => ['required', 'date', 'before_or_equal:today'],
             'evidence' => [
                 'nullable',
@@ -98,6 +99,7 @@ class ReportController extends Controller
             'student_name' => ['required', 'string', 'max:255'],
             'school_id' => ['required', 'exists:schools,id'],
             'sppg_id' => ['required', 'exists:sppgs,id'],
+            'incident_type' => ['required', 'in:Keracunan,Makanan tidak layak,Makanan tidak datang'],
             'incident_date' => ['required', 'date', 'before_or_equal:today'],
             'evidence' => [
                 'nullable',

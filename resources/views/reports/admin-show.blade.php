@@ -131,6 +131,11 @@
         </div>
 
         <div class="detail">
+            <div class="label">Kronologi Kejadian</div>
+            <div class="value">{{ $report->incident_type ?? 'Belum diisi (laporan lama)' }}</div>
+        </div>
+
+        <div class="detail">
             <div class="label">Tanggal Kejadian</div>
             <div class="value">
                 {{ $report->incident_date->format('d-m-Y') }}

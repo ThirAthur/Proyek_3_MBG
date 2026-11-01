@@ -153,6 +153,17 @@
             </div>
 
             <div class="form-group">
+                <label for="incident_type">Kronologi Kejadian</label>
+                <select name="incident_type" id="incident_type" required style="width:100%;padding:13px;border:1px solid #d0d5dd;border-radius:8px;background:#fff">
+                    <option value="">Pilih kronologi kejadian</option>
+                    @foreach(['Keracunan', 'Makanan tidak layak', 'Makanan tidak datang'] as $type)
+                        <option value="{{ $type }}" {{ old('incident_type', $report->incident_type) === $type ? 'selected' : '' }}>{{ $type }}</option>
+                    @endforeach
+                </select>
+                <p class="hint">Pilih kategori kejadian yang paling sesuai dengan laporan.</p>
+            </div>
+
+            <div class="form-group">
                 <label>Tanggal Kejadian</label>
                 <input
                     type="date"

@@ -178,6 +178,7 @@
                     <strong>Sekolah:</strong>
                     {{ optional($report->school)->name ?? 'Belum ditentukan' }}<br>
                     <strong>SPPG:</strong> {{ $report->sppg?->name ?? 'Belum dipetakan' }}<br>
+                    <strong>Kronologi:</strong> {{ $report->incident_type ?? 'Belum diisi' }}<br>
 
                     <strong>Tanggal Kejadian:</strong>
                     {{ $report->incident_date->format('d-m-Y') }}<br>
