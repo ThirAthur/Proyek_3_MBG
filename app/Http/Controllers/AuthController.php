@@ -9,13 +9,11 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    // Menampilkan halaman login
     public function showLogin()
     {
         return view('auth.login');
     }
 
-    // Memproses login
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -23,24 +21,35 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        if (!Auth::attempt($credentials, $request->boolean('remember'))) {
+        if (!Auth::attempt(
+            $credentials,
+            $request->boolean('remember')
+        )) {
             throw ValidationException::withMessages([
-                'email' => 'Email atau password yang dimasukkan salah.',
+                'email' => 'Email atau password salah.',
             ]);
         }
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard'));
+        $user = Auth::user();
+
+        if ($user->role === 'coordinator') {
+            return redirect()->route('coordinator.dashboard');
+        }
+
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return redirect()->route('user.dashboard');
     }
 
-    // Menampilkan halaman register
     public function showRegister()
     {
         return view('auth.register');
     }
 
-    // Memproses registrasi
     public function register(Request $request)
     {
         $validated = $request->validate([
@@ -53,18 +62,16 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password'],
-            'role' => 'pelapor',
+            'role' => 'user',
         ]);
 
         Auth::login($user);
 
         $request->session()->regenerate();
 
-        return redirect()->route('dashboard')
-            ->with('success', 'Registrasi berhasil. Selamat datang!');
+        return redirect()->route('user.dashboard');
     }
 
-    // Logout
     public function logout(Request $request)
     {
         Auth::logout();
@@ -72,7 +79,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')
-            ->with('success', 'Kamu berhasil logout.');
+        return redirect()->route('login');
     }
 }

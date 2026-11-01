@@ -56,3 +56,38 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## Fitur MBG Report (pengembangan)
+
+### Setup lokal
+
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
+```
+
+Atur koneksi database pada `.env` sebelum menjalankan migrasi. Migration baru akan membuat tabel `schools`, `sppgs`, dan pivot `school_sppg`, memindahkan nama sekolah lama dari laporan ke tabel sekolah, lalu mengganti kolom teks `school_name` pada laporan dengan foreign key `school_id` dan `sppg_id`.
+
+### Akun awal
+
+| Role | Email | Password |
+|---|---|---|
+| Koordinator | `koordinator@mbgreport.com` | `koordinator12345` |
+| Admin | `admin@mbgreport.com` | `admin12345` |
+| User | `user@mbgreport.com` | `user12345` |
+
+Ganti password akun bawaan sebelum aplikasi digunakan di lingkungan produksi.
+
+### Pengaturan sekolah dan SPPG
+
+Login sebagai Koordinator, buka menu **Sekolah & SPPG**, tambahkan data sekolah dan SPPG, kemudian petakan SPPG yang melayani setiap sekolah. Form laporan hanya menerima pasangan sekolah-SPPG yang sudah dipetakan; validasi relasi juga dilakukan di server, bukan hanya melalui dropdown browser.
+
+### Hak akses
+
+- **User**: membuat, melihat, dan mengubah laporan miliknya selama belum diperiksa.
+- **Admin**: melihat dan memeriksa laporan.
+- **Koordinator**: melihat dashboard rekap dan histori seluruh laporan, mengelola pemetaan sekolah-SPPG, serta mengubah role akun User/Admin/Koordinator. Koordinator tidak dapat mengubah role akunnya sendiri melalui halaman manajemen akun.
